@@ -1,0 +1,21 @@
+---
+- name: Windows Info
+  hosts: windows_hosts
+  gather_facts: false
+  tasks:
+    - name: Configure WinRM
+      raw: Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force
+      delegate_to: localhost
+      become: false
+
+    - name: Inventory details
+      win_shell: |
+        $hostname = (Get-WmiObject Win32_ComputerSystem).Name
+        $osversion = (Get-WmiObject Win32_OperatingSystem).Caption
+        Write-Output "Hostname: $hostname"
+        Write-Output "OS Version: $osversion"
+      register: inventory_result
+
+    - name: Display Inventory Details
+      debug:
+        var: inventory_result.stdout_lines
