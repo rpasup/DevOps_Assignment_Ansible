@@ -1,6 +1,8 @@
-# DevOps Ansible Assignement
+#DevOps Ansible Assignement
  
 ## prerequisite: 
+
+sudo apt-get install ansible
 
 pip install pywinrm
 
